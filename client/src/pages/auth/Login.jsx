@@ -6,15 +6,32 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+import { loginGoogle } from "@/api/auth";
+import { assert } from "joi";
 
 const Login = () => {
   const actionLogin = useEcomStore((state) => state.actionLogin);
+  const actionLoginGoogle = useEcomStore((state) => state.actionLoginGoogle);
   const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
 
+  const hdlLoginGoogle =  useGoogleLogin({
+    onSuccess: async (codeResponse) => {
+      const res = await actionLoginGoogle(codeResponse)
+      console.log("check res function --> ",res)
+      // console.log("check res -->",res.data)
+      // console.log(codeResponse)
+      navigate("/user/profile");
+  },onError:(err)=>{
+    console.log(err)
+  }})
+    
+  
   const hdlOnChange = (e) => {
     setForm({
       ...form,
@@ -78,6 +95,9 @@ const Login = () => {
             <Button type="submit" className="w-full">
               Login
             </Button>
+            <button onClick={()=>hdlLoginGoogle()} type="submit" className="w-full">
+              Login Google
+            </button>
           </form>
           <div className="mt-4 text-center">
             <span>Not registered? </span>

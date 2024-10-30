@@ -1,4 +1,4 @@
-const { register, login, currentUser } = require("./auth-controller");
+const { register, login, currentUser , loginGoogle} = require("./auth-controller");
 const { createCategory , removeCategory, listCategory } = require("./category-controller");
 const { createProduct, listProduct, listbyProduct, removeProduct, searchFilters, updateProduct, readProduct, uploadImages, removeImages } = require("./product-controller")
 const { listUser, saveAddress ,saveOrder , userCart , getOrder , getUserCart ,emptyCart,changeRole,changeStatus, updateAddress} = require("./user-controller")
@@ -34,4 +34,5 @@ module.exports = {
   removeImages,
   getConfig,
   createPayment,
+  loginGoogle
 };

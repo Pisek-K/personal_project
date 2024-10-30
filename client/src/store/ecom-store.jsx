@@ -5,6 +5,7 @@ import { listCategory } from "../api/Category";
 import { listProduct, searchFilters } from "../api/products";
 import _ from "lodash";
 import { toast } from "react-toastify";
+import { loginGoogle } from "@/api/auth";
 
 const ecomStore = (set, get) => ({
   user: null,
@@ -129,6 +130,22 @@ const ecomStore = (set, get) => ({
   clearCart: () => {
     set({ carts: [] });
   },
+  actionLoginGoogle : async (codeResponse) => {
+    const res = await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${codeResponse.access_token}`,
+      {
+        headers: {
+          Authorization: `Bearer ${codeResponse.access_token}`,
+        },
+      }
+    )
+    const result = await loginGoogle(res.data)
+    console.log(result)
+    set({
+      user: result.data.payload,
+      token: result.data.token,
+    });
+    return result
+  }
 });
 
 const usePersist = {
