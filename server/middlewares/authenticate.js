@@ -31,7 +31,6 @@ exports.auth = async (req, res, next) => {
   };
 
 
-
 exports.checkAdmin = async (req,res,next) => {
     try {
         const {email} = req.user
